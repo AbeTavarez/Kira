@@ -12,12 +12,15 @@ const AddLogModal = () => {
     } else {
       console.log(message, tech, attention);
     }
+    setMessage('')
+    setTech('')
+    setAttention(false)
   };
 
   return (
     <div id="add-log-modal" className="modal" style={modalStyle}>
       <div className="modal-content">
-        <h4>Enter New Log</h4>
+        <h4>Create New Log</h4>
 
         <div className="row">
           <div className="input-field">
