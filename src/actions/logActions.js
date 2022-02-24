@@ -1,5 +1,13 @@
 import axios from "axios";
-import { GET_LOGS, SET_LOADING, LOGS_ERROR, ADD_LOG } from "./types";
+import { GET_LOGS, SET_LOADING, LOGS_ERROR, ADD_LOG, DELETE_LOG } from "./types";
+
+
+//* set loading to true
+export const setLoading = () => {
+    return {
+      type: SET_LOADING,
+    };
+  };
 
 export const getLogs = () => async (dispatch) => {
   try {
@@ -25,7 +33,7 @@ export const addLog = (log) => async dispatch => {
 
         dispatch({
             type: ADD_LOG,
-            payload: data
+            payload: data.data
         })
     } catch (err) {
         dispatch({
@@ -33,14 +41,19 @@ export const addLog = (log) => async dispatch => {
             payload: err.response.data
         })
     }
+};
+
+export const deleteLog = (id) => async dispatch =>{
+    try {
+        setLoading();
+        await axios.delete(`/logs/${id}`);
+        
+        dispatch({type: DELETE_LOG, payload: id})
+    } catch (err) {
+        dispatch({type: LOGS_ERROR, payload: err.response.data})
+    }
 }
 
-//* set loading to true
-export const setLoading = () => {
-  return {
-    type: SET_LOADING,
-  };
-};
 
 
 
