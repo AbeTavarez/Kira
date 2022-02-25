@@ -1,13 +1,21 @@
 import axios from "axios";
-import { GET_LOGS, SET_LOADING, LOGS_ERROR, ADD_LOG, DELETE_LOG } from "./types";
+import {
+  GET_LOGS,
+  SET_LOADING,
+  LOGS_ERROR,
+  ADD_LOG,
+  DELETE_LOG,
+  SET_CURRENT,
+  CLEAR_CURRENT,
+  UPDATE_LOG,
+} from "./types";
 
-
-//* set loading to true
+//* Set loading to true
 export const setLoading = () => {
-    return {
-      type: SET_LOADING,
-    };
+  return {
+    type: SET_LOADING,
   };
+};
 
 export const getLogs = () => async (dispatch) => {
   try {
@@ -26,46 +34,66 @@ export const getLogs = () => async (dispatch) => {
   }
 };
 
-export const addLog = (log) => async dispatch => {
-    try {
-        setLoading()
-        const data = await axios.post('/logs', log);
+export const addLog = (log) => async (dispatch) => {
+  try {
+    setLoading();
+    const data = await axios.post("/logs", log);
 
-        dispatch({
-            type: ADD_LOG,
-            payload: data.data
-        })
-    } catch (err) {
-        dispatch({
-            type: LOGS_ERROR,
-            payload: err.response.data
-        })
-    }
+    dispatch({
+      type: ADD_LOG,
+      payload: data.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOGS_ERROR,
+      payload: err.response.data,
+    });
+  }
 };
 
-export const deleteLog = (id) => async dispatch =>{
-    try {
-        setLoading();
-        await axios.delete(`/logs/${id}`);
-        
-        dispatch({type: DELETE_LOG, payload: id})
-    } catch (err) {
-        dispatch({type: LOGS_ERROR, payload: err.response.data})
-    }
-}
+export const deleteLog = (id) => async (dispatch) => {
+  try {
+    setLoading();
+    await axios.delete(`/logs/${id}`);
 
+    dispatch({ type: DELETE_LOG, payload: id });
+  } catch (err) {
+    dispatch({ type: LOGS_ERROR, payload: err.response.data });
+  }
+};
 
+//* Set current log - This is not async
+export const setCurrent = (log) => {
+  return {
+    type: SET_CURRENT,
+    payload: log,
+  };
+};
 
+//* Clear current log - This is not async
+export const clearCurrent = () => {
+  return {
+    type: CLEAR_CURRENT,
+  };
+};
 
+export const updateLog = (log) => async (dispatch) => {
+  try {
+    setLoading();
 
-
-
-
-
-
-
-
-
+    const data = await axios.put(`/logs/${log.id}`, log);
+    
+    dispatch({
+      type: UPDATE_LOG,
+      payload: data.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOGS_ERROR,
+      payload: err.response.data,
+    });
+  }
+};
 
 //* =============== first version of get logs
 // export const getLogs = () => {
