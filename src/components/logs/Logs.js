@@ -16,14 +16,14 @@ const Logs = ({log: {logs, loading}, getLogs}) => {
 
   return (
     <ul className="collection with-header">
-      <li className="collection-header">
+      <div className="collection-header">
         <h4 className="center">Logs</h4>
         {!loading && logs.length === 0 ? (
           <p className="center">No logs to show</p>
         ) : (
           logs.map((log) => <LogsItem log={log} key={log.id} />)
         )}
-      </li>
+      </div>
     </ul>
   );
 };
