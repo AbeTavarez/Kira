@@ -8,6 +8,7 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_LOG,
+  SEARCH_LOGS,
 } from "./types";
 
 //* Set loading to true
@@ -94,6 +95,28 @@ export const updateLog = (log) => async (dispatch) => {
     });
   }
 };
+
+export const searchLogs = (text) => async (dispatch) => {
+    try {
+      setLoading();
+
+      // we're hitting an endpoint in the backend that will perform the search
+      const data = await axios.get(`/logs?q=${text}`);
+  
+      dispatch({
+        type: SEARCH_LOGS,
+        payload: data.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: LOGS_ERROR,
+        payload: err.response.data,
+      });
+    }
+  };
+
+
+
 
 //* =============== first version of get logs
 // export const getLogs = () => {
