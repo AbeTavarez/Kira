@@ -14,6 +14,8 @@ import "./App.css";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 import NavBar from "./components/layout/NavBar";
+import NotFound from "./pages/NotFound";
+import About from "./pages/About";
 
 const App = () => {
   useEffect(() => {
@@ -26,6 +28,8 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/terminal" component={Terminal} />
+        <Route path="/about" component={About}/>
+        <Route component={NotFound} />
       </Switch>
     </>
   );
