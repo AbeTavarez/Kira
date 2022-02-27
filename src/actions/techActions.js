@@ -4,6 +4,7 @@ import {
   SET_LOADING,
   TECHS_ERROR,
   GET_TECHS,
+  DELETE_TECH
 } from "./types";
 import axios from 'axios'
 
@@ -16,6 +17,41 @@ export const getTechs = () => async (dispatch) => {
       dispatch({
         type: GET_TECHS,
         payload: data.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TECHS_ERROR,
+        payload: err.response.statusText,
+      });
+    }
+  };
+
+//* Add a tech
+export const addTech = (tech) => async (dispatch) => {
+    try {
+      setLoading(); 
+      const data = await axios.post("/techs", tech);
+  
+      dispatch({
+        type: ADD_TECH,
+        payload: data.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TECHS_ERROR,
+        payload: err.response.statusText,
+      });
+    }
+  };
+//* Delete a tech
+  export const deleteTech = (id) => async (dispatch) => {
+    try {
+      setLoading(); 
+      await axios.post("/techs", id);
+  
+      dispatch({
+        type: DELETE_TECH,
+        payload: id,
       });
     } catch (err) {
       dispatch({
